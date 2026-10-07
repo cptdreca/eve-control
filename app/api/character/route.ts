@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { characterLocation } from '../../lib/character-location';
 import { esi, refreshCharacter } from '../../lib/eve';
 import { readSession, writeSession } from '../../lib/session';
 
-type LocationResponse = { solar_system_id: number; station_id?: number; structure_id?: number };
-type NamedLocation = { name?: string };
 type CharacterPublic = { corporation_id: number };
 type CorporationPublic = { name: string; ticker: string; member_count: number; alliance_id?: number };
 type AlliancePublic = { name: string; ticker: string };
@@ -34,21 +33,6 @@ async function privateActivitySummary(id: string, token: string) {
   return { contracts, market: orders };
 }
 
-async function characterLocation(id: string, token: string) {
-  try {
-    const location = await esi(`/characters/${id}/location/`, token) as LocationResponse;
-    const system = await esi(`/universe/systems/${location.solar_system_id}/`, token) as NamedLocation;
-    let detail = location.structure_id ? 'Spielerstruktur' : '';
-    if (location.station_id) {
-      const station = await esi(`/universe/stations/${location.station_id}/`, token) as NamedLocation;
-      detail = station.name || 'Station';
-    }
-    return { solarSystem: system.name || `System ${location.solar_system_id}`, detail, authorizationRequired: false };
-  } catch {
-    return { solarSystem: 'Standortfreigabe erforderlich', detail: '', authorizationRequired: true };
-  }
-}
-
 export async function GET(request: NextRequest) {
   try {
     const storedSession = await readSession(request);
@@ -65,7 +49,7 @@ export async function GET(request: NextRequest) {
       esi(`/characters/${id}/wallet/`, refreshed.accessToken),
       esi(`/characters/${id}/skillqueue/`, refreshed.accessToken),
       esi(`/characters/${id}/industry/jobs/`, refreshed.accessToken),
-      characterLocation(id, refreshed.accessToken),
+      characterLocation(id, refreshed.accessToken, esi),
       corporationSummary(id, refreshed.accessToken),
       privateActivitySummary(id, refreshed.accessToken),
     ]) as [number, Array<{ finish_date?: string }>, Array<{ status: string; activity_id?: number; end_date?: string }>, Awaited<ReturnType<typeof characterLocation>>, Awaited<ReturnType<typeof corporationSummary>>, Awaited<ReturnType<typeof privateActivitySummary>>];
