@@ -1,0 +1,1 @@
+import {NextRequest,NextResponse} from 'next/server';import {clearSession,readSession} from '../../lib/session';export async function GET(request:NextRequest){const stored=await readSession(request);const response=NextResponse.redirect(new URL('/',request.url));await clearSession(response,stored.id);response.cookies.delete('eve_login');return response}
