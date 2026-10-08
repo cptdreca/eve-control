@@ -1,0 +1,46 @@
+name: Windows installer
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['desktop/**', '.github/workflows/windows-desktop.yml']
+permissions:
+  contents: read
+concurrency:
+  group: windows-desktop-release
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - run: npm ci
+        working-directory: desktop
+      - run: npm test
+        working-directory: desktop
+      - run: npm run dist
+        working-directory: desktop
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Verify installer and publish release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = (Get-Content desktop/package.json | ConvertFrom-Json).version
+          $tag = "desktop-v$version"
+          $installer = Get-Item "desktop/dist/EVE-Control-Setup-$version-x64.exe"
+          if ($installer.Length -lt 1000000) { throw 'Installer is unexpectedly small' }
+          $hash = (Get-FileHash -Algorithm SHA256 $installer.FullName).Hash.ToLower()
+          "$hash  $($installer.Name)" | Set-Content desktop/dist/SHA256SUMS.txt -Encoding ascii
+          gh release create $tag $installer.FullName desktop/dist/SHA256SUMS.txt --target $env:GITHUB_SHA --title "EVE-Control Desktop $version" --notes "Windows 10/11 x64 Installer. Internet erforderlich. EVE-Anmeldung erfolgt in der App. Nicht digital signiert. Anleitung: desktop/README.md im Repository."
+          if ($LASTEXITCODE -ne 0) { throw 'Release creation failed; existing releases are not overwritten' }

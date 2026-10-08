@@ -1,0 +1,35 @@
+{
+  "name": "eve-control-desktop",
+  "version": "1.0.0",
+  "description": "EVE-Control Desktop für Windows",
+  "private": true,
+  "author": "cptdreca",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test navigation.test.cjs",
+    "dist": "electron-builder --win nsis --x64 --publish never"
+  },
+  "devDependencies": {
+    "electron": "44.7.0",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "de.eve-control.desktop",
+    "productName": "EVE-Control",
+    "artifactName": "EVE-Control-Setup-${version}-${arch}.${ext}",
+    "directories": { "output": "dist" },
+    "files": ["main.cjs", "navigation.cjs", "offline.html", "icon.png"],
+    "win": { "target": "nsis", "icon": "icon.png", "signExecutable": false },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowElevation": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "EVE-Control",
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}
