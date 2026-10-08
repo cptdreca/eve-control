@@ -1,5 +1,9 @@
 # EVE-Control
 
+## Windows-App installieren
+
+Den aktuellen `.exe`-Installer findest du unter **[Windows-Download / Releases](https://github.com/cptdreca/eve-control/releases/latest)**. Windows 10/11 x64, Internet erforderlich. [Installationshinweise](desktop/README.md).
+
 Dashboard für EVE Online mit Charakterübersicht, ISK-Zielen und Ratting-Tracker.
 
 ## Funktionen
