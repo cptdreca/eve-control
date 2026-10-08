@@ -32,3 +32,5 @@ test('discovery matches listener, excludes Local and old logs, supports UTF16 an
   assert.equal(result.candidates.find(c=>c.channel==='Reports').recommended,true);assert.equal(result.candidates.find(c=>c.channel==='Social').recommended,false);assert.equal(result.errors,0);
  }finally{if(!path.resolve(root).startsWith(path.resolve(os.tmpdir())+path.sep))throw Error('Unsafe temporary path');await fs.rm(root,{recursive:true,force:true});}
 });
+const {selectChannels}=require('./intel-discovery.cjs');
+test('multi-channel selection stays bound to character and folder',()=>{const candidates=[{pilot:'Own',folder:'x',prefix:'I. Ftn Intel'},{pilot:'Own',folder:'x',prefix:'I. Delve & Q Intel'},{pilot:'Other',folder:'x',prefix:'Intel'},{pilot:'Own',folder:'y',prefix:'Intel'}];assert.deepEqual(selectChannels(candidates,[0,1,0],'Own'),{folder:'x',channels:'I. Ftn Intel, I. Delve & Q Intel'});for(const indices of [[],[2],[0,3],[9],['0']])assert.throws(()=>selectChannels(candidates,indices,'Own'));});

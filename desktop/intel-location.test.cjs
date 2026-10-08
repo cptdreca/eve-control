@@ -28,3 +28,5 @@ test('no distance query or alert without current ESI location',async()=>{
 test('ESI polling is throttled to 30 seconds even if log folder fails',async()=>{
  const s=service();let calls=0;s.locationProvider=async()=>{calls++;return {id:30000142};};await s.poll();await s.poll();assert.equal(calls,1);s.locationAttempt=Date.now()-31000;await s.poll();assert.equal(calls,2);
 });
+const {readCharacters}=require('./intel-location.cjs');
+test('linked character list uses authenticated endpoint and returns only names and IDs',async()=>{const rows=await readCharacters({fetch:async(url,options)=>{assert.equal(url,'https://app.eve-control.de/api/characters');assert.equal(options.credentials,'include');return {ok:true,json:async()=>({characters:[{characterId:'42',name:'Own',wallet:123,refreshToken:'secret'}]})};}});assert.deepEqual(rows,[{id:'42',name:'Own'}]);await assert.rejects(()=>readCharacters({fetch:async()=>({status:401})}),/anmelden/);});

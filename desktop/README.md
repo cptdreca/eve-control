@@ -49,3 +49,7 @@ Die Erkennung prüft Kanalnamen und eine begrenzte lokale Stichprobe auf das unt
 Tests: `npm test` prüft unter anderem Intel-Format, UTF-16-Teilzeilen, Logrotation, 5-/6-Sprung-Grenze, Freundesfilter, Duplikate und Killmail-Schiffsauswertung. Öffentliche Kataloge lassen sich mit `node update-catalog.cjs` aktualisieren.
 
 Quellen: [EVE ESI](https://esi.evetech.net/meta/openapi.json), [zKillboard API](https://zkillboard.com/api/docs/).
+
+### Charakter- und Kanal-Dropdowns ab 1.4.0
+
+Das Intel-Fenster lädt die im Desktop-Dashboard verbundenen Charaktere. Bei einem Charakterwechsel sucht es dessen aktuelle lokale Chatlogs. Im Dropdown „Verfügbare Kanäle auswählen“ können mehrere Kanäle aus demselben Ordner markiert und gemeinsam übernommen werden. „Speichern & Alarm starten“ speichert die Auswahl. Kanalnamen werden aus den lokalen Logs ermittelt; ESI stellt keine Chatkanalliste bereit. Bei fehlender Anmeldung oder nicht erreichbarer Charakterliste erscheint ein Hinweis.

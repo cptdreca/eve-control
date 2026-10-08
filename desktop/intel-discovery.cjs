@@ -42,4 +42,12 @@ function choose(candidates,config){
  if(selected.length&&existing.length===selected.length)return {folder:config.folder,channels:config.channels};
  const likely=candidates.filter(c=>c.recommended);return likely.length===1?{folder:likely[0].folder,channels:likely[0].prefix}:null;
 }
-module.exports={folders,discover,choose};
+function selectChannels(candidates,indices,pilot){
+ if(!Array.isArray(indices)||!indices.length||indices.length>100||indices.some(i=>!Number.isInteger(i)||!candidates[i]))throw Error('Bitte mindestens einen verfügbaren Kanal auswählen.');
+ const chosen=[...new Set(indices)].map(i=>candidates[i]);
+ if(chosen.some(c=>c.pilot.toLowerCase()!==pilot.toLowerCase()))throw Error('Charakter geändert. Bitte erneut suchen.');
+ if(chosen.some(c=>c.folder.toLowerCase()!==chosen[0].folder.toLowerCase()))throw Error('Bitte Kanäle aus demselben Chatlog-Ordner auswählen.');
+ const channels=[...new Set(chosen.map(c=>c.prefix))].join(', ');if(channels.length>500)throw Error('Zu viele Kanäle ausgewählt.');
+ return {folder:chosen[0].folder,channels};
+}
+module.exports={folders,discover,choose,selectChannels};

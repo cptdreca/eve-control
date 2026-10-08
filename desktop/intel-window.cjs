@@ -7,6 +7,7 @@ service.onAlert=alert=>{if(Date.now()-lastSound>5000){shell.beep();lastSound=Dat
 function trusted(event){if(!panel||event.sender!==panel.webContents||event.senderFrame!==panel.webContents.mainFrame||event.senderFrame.url!==url)throw Error('Zugriff verweigert');}
 function handle(name,fn){ipcMain.handle('intel:'+name,async(event,...args)=>{trusted(event);try{return {ok:true,value:await fn(...args)};}catch(e){return {ok:false,error:String(e.message).slice(0,500)};}});}
 async function init(){service.locationProvider=id=>require('./intel-location.cjs').readLocation(session.fromPartition('persist:eve-control'),id);app.setAppUserModelId('de.eve-control.desktop');try{const saved=JSON.parse(await fs.readFile(path.join(app.getPath('userData'),'intel-settings.json'),'utf8'));for(const key of Object.keys(service.config))if(typeof saved[key]===typeof service.config[key])service.config[key]=saved[key];}catch{}
+handle('characters',()=>require('./intel-location.cjs').readCharacters(session.fromPartition('persist:eve-control')));
 handle('detect',async pilot=>{
  if(service.running||service.starting||detecting)throw Error('Alarm zuerst stoppen bzw. Suche abwarten.');
  if(typeof pilot!=='string'||!pilot.trim()||pilot.length>100)throw Error('Bitte deinen EVE-Charakter eintragen.');
@@ -20,11 +21,10 @@ handle('detect',async pilot=>{
   service.emit();return {...result,selected:Boolean(selected),state:service.state()};
  }finally{detecting=false;}
 });
-handle('select-log',index=>{
+handle('select-log',indices=>{
  if(service.running||service.starting||detecting)throw Error('Alarm zuerst stoppen bzw. Suche abwarten.');
- if(!Number.isInteger(index)||!candidates[index])throw Error('Logauswahl ungültig. Bitte erneut suchen.');
- const c=candidates[index];if(c.pilot.toLowerCase()!==service.config.pilot.toLowerCase())throw Error('Charakter geändert. Bitte erneut suchen.');
- service.config.folder=c.folder;service.config.channels=c.prefix;service.emit();return service.state();
+ const selection=require('./intel-discovery.cjs').selectChannels(candidates,indices,service.config.pilot);
+ Object.assign(service.config,selection);service.emit();return service.state();
 });
 handle('state',()=>service.state());handle('folder',async()=>{if(service.running||service.starting)throw Error('Alarm zuerst stoppen.');const result=await dialog.showOpenDialog(panel,{title:'EVE Chatlogs auswählen',defaultPath:path.join(app.getPath('documents'),'EVE','logs','Chatlogs'),properties:['openDirectory']});if(!result.canceled){service.config.folder=result.filePaths[0];service.emit();}return service.state();});
 handle('save',async input=>{if(!input||typeof input!=='object')throw Error('Ungültige Einstellungen');service.configure(input);await fs.writeFile(path.join(app.getPath('userData'),'intel-settings.json'),JSON.stringify(service.config));return service.state();});
