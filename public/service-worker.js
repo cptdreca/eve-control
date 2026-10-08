@@ -1,4 +1,4 @@
-const CACHE_NAME = 'eve-character-control-v15';
+const CACHE_NAME = 'eve-character-control-v16';
 const OFFLINE_URL = '/';
 const CORE = ['/manifest.json', '/icons/app-icon-192.png', '/icons/app-icon-512.png'];
 

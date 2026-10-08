@@ -16,14 +16,14 @@ Die Anmeldung wird separat vom normalen Browser gespeichert. Bereits serverseiti
 
 In diesem Ordner `npm ci`, `npm test` und `npm run dist` ausführen. `npm start` startet die Desktop-App. Ausgabe: `dist/`. Der Windows-Workflow baut den Installer und veröffentlicht ihn als GitHub Release.
 
-Remote-Inhalte laufen ohne Node-Zugriff und ohne Preload/IPC-Brücke, mit Sandbox und Kontextisolation. Navigation ist auf EVE-Control und EVE SSO begrenzt. Andere HTTPS-Links öffnen im Standardbrowser. Das separate, ausschließlich lokale Intel-Fenster verwendet eine begrenzte IPC-Schnittstelle mit Prüfung des sendenden Fensters und Hauptframes. Die Online-Seite erhält keinen Dateizugriff.
+Remote-Inhalte laufen ohne Node-Zugriff, mit einer einzelnen IPC-Funktion zum Öffnen des Intel-Fensters (nur vertrauenswürdiger Hauptframe), mit Sandbox und Kontextisolation. Navigation ist auf EVE-Control und EVE SSO begrenzt. Andere HTTPS-Links öffnen im Standardbrowser. Das separate, ausschließlich lokale Intel-Fenster verwendet eine begrenzte IPC-Schnittstelle mit Prüfung des sendenden Fensters und Hauptframes. Die Online-Seite erhält keinen Dateizugriff.
 
 ## Intel-Alarm ab Version 1.1.0
 
-Öffnen: Menü **EVE-Control → Intel-Alarm** oder **Strg+I**.
+Öffnen ab Version 1.3.0: **INTEL-ALARM** auf der Hauptseite übernimmt den dort ausgewählten Charakter. Alternativ Menü **EVE-Control → Intel-Alarm** oder **Strg+I**. Im Browser zeigt der Button einen Hinweis mit Download-Link.
 
 1. In EVE das Speichern von Chatlogs aktivieren und den Intel-Kanal öffnen.
-2. Chatlog-Ordner auswählen, üblicherweise `Dokumente/EVE/logs/Chatlogs` (gegebenenfalls unter OneDrive).
+2. Beim Öffnen über die Hauptseite sucht die App automatisch unter Dokumente/EVE/logs/Chatlogs, den bekannten OneDrive-Dokumentordnern und im zuvor gewählten Ordner. Nur in den letzten 24 Stunden geänderte Logs mit passendem Listener-Header werden angeboten. Ein eindeutig erkannter Intel-Kanal wird übernommen; bei mehreren Treffern den Kanal auswählen. Weitere Kanäle sind manuell möglich. Ein abweichender Speicherort lässt sich weiterhin über „Chatlog-Ordner wählen“ einstellen.
 3. Den exakten Intel-Kanalnamen, deinen vollständigen Charakter-Namen eintragen. Diesen Charakter zuvor im Desktop-Dashboard mit EVE verbinden. **Standort automatisch über ESI** ist standardmäßig aktiv.
 4. Optional vollständige Freundesnamen eintragen, ein Name pro Zeile. Diese lokale Liste wird nicht aus EVE-Kontakten importiert.
 5. „Ton & Windows-Hinweis testen“ und „Speichern & Alarm starten“ wählen.
@@ -43,6 +43,8 @@ Bei einem erkannten Piloten „Killboard: häufige Schiffe prüfen“ wählen. A
 ### Daten
 
 Chattexte und Logdateien werden nicht hochgeladen. Erkannt werden Namen zuerst lokal; nur erkannte Pilotennamen/-IDs sowie eingegebene eigene und Freundesnamen werden über EVE ESI aufgelöst bzw. abgeglichen. System-IDs dienen der ESI-Routenabfrage. Der manuelle Killboard-Check sendet die Piloten-ID an zKillboard und ruft gegebenenfalls Killmail-/Schiffsdaten von ESI ab. Einstellungen liegen lokal im Benutzerprofil (`intel-settings.json`), die letzten 100 Meldungen nur im Arbeitsspeicher. Die öffentlichen Intel-Abfragen benötigen keine EVE-Tokens. Der automatische eigene Standort nutzt die bestehende Anmeldung im Desktop-Dashboard; Tokens bleiben serverseitig, das lokale Intel-Fenster erhält nur das System. Es wird kein neuer Token in Intel-Einstellungen gespeichert.
+
+Die Erkennung prüft Kanalnamen und eine begrenzte lokale Stichprobe auf das unterstützte Intel-Format. Sie kann unbekannte Formate nicht sicher erkennen. Chattexte bleiben lokal; die Hauptseite erhält weder Dateipfade noch Chat-Inhalte. Auch beim laufenden Alarm werden Logs anderer Charaktere ausgeschlossen.
 
 Tests: `npm test` prüft unter anderem Intel-Format, UTF-16-Teilzeilen, Logrotation, 5-/6-Sprung-Grenze, Freundesfilter, Duplikate und Killmail-Schiffsauswertung. Öffentliche Kataloge lassen sich mit `node update-catalog.cjs` aktualisieren.
 
