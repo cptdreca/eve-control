@@ -34,3 +34,12 @@ test('discovery matches listener, excludes Local and old logs, supports UTF16 an
 });
 const {selectChannels}=require('./intel-discovery.cjs');
 test('multi-channel selection stays bound to character and folder',()=>{const candidates=[{pilot:'Own',folder:'x',prefix:'I. Ftn Intel'},{pilot:'Own',folder:'x',prefix:'I. Delve & Q Intel'},{pilot:'Other',folder:'x',prefix:'Intel'},{pilot:'Own',folder:'y',prefix:'Intel'}];assert.deepEqual(selectChannels(candidates,[0,1,0],'Own'),{folder:'x',channels:'I. Ftn Intel, I. Delve & Q Intel'});for(const indices of [[],[2],[0,3],[9],['0']])assert.throws(()=>selectChannels(candidates,indices,'Own'));});
+test('large archives cannot hide Intel after 2000 files or 100 newer logs',async t=>{
+ const now=Date.now(),intel='I. Ftn Intel_20261008_070033_42.txt';
+ const names=[...Array.from({length:2001},(_,i)=>`A-old_${i}.txt`),...Array.from({length:101},(_,i)=>`Z-other_${i}_20261008_120000.txt`),intel];
+ t.mock.method(fs,'readdir',async(_dir,options)=>options?names.map(name=>({name,isFile:()=>true})):names);
+ t.mock.method(fs,'stat',async file=>({isFile:()=>true,size:200,mtimeMs:file.includes('A-old')?now-2*86400000:file.endsWith(intel)?now-1000:now}));
+ t.mock.method(fs,'open',async file=>({read:async b=>{const header=`Channel Name: I. Ftn Intel\r\nListener: ${file.endsWith(intel)?'Own':'Other'}\r\n`;b.write(header);return {bytesRead:Buffer.byteLength(header)};},close:async()=>{}}));
+ const result=await discover(['fake'],'Own',now);assert.deepEqual(result.candidates.map(c=>c.channel),['I. Ftn Intel']);
+ const {IntelService}=require('./intel-service.cjs');const s=new IntelService(()=>{});s.config={...s.config,folder:'fake',channels:'I. Ftn Intel',pilot:'Own',autoLocation:false};s.running=true;s.started=now;await s.poll(true);assert.equal(s.files.size,1);assert.equal(s.logNames.length,1);
+});

@@ -11,10 +11,11 @@ async function discover(dirs,pilot,now=Date.now()){
  for(const folder of dirs){
   let files;try{files=await fs.readdir(folder,{withFileTypes:true});readable++;}catch(e){if(e.code!=='ENOENT')errors.push(folder);continue;}
   const recent=[];
-  for(const entry of files.filter(e=>e.isFile()&&/\.txt$/i.test(e.name)).slice(0,2000)){
+  const entries=files.filter(e=>e.isFile()&&/\.txt$/i.test(e.name));
+  for(let i=0;i<entries.length;i+=32)await Promise.all(entries.slice(i,i+32).map(async entry=>{
    try{const stat=await fs.stat(path.join(folder,entry.name));if(now-stat.mtimeMs<86400000)recent.push({name:entry.name,mtime:stat.mtimeMs,size:stat.size});}catch{}
-  }
-  for(const file of recent.sort((a,b)=>b.mtime-a.mtime).slice(0,100)){
+  }));
+  for(const file of recent.sort((a,b)=>b.mtime-a.mtime)){
    let handle;try{
     handle=await fs.open(path.join(folder,file.name),'r');const head=Buffer.alloc(Math.min(8192,file.size));await handle.read(head,0,head.length,0);const header=decoder(head).write(head);
     const listener=header.match(/^\s*Listener\s*:\s*([^\r\n]+)/im)?.[1]?.trim();

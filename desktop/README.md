@@ -53,3 +53,6 @@ Quellen: [EVE ESI](https://esi.evetech.net/meta/openapi.json), [zKillboard API](
 ### Charakter- und Kanal-Dropdowns ab 1.4.0
 
 Das Intel-Fenster lädt die im Desktop-Dashboard verbundenen Charaktere. Bei einem Charakterwechsel sucht es dessen aktuelle lokale Chatlogs. Im Dropdown „Verfügbare Kanäle auswählen“ können mehrere Kanäle aus demselben Ordner markiert und gemeinsam übernommen werden. „Speichern & Alarm starten“ speichert die Auswahl. Kanalnamen werden aus den lokalen Logs ermittelt; ESI stellt keine Chatkanalliste bereit. Bei fehlender Anmeldung oder nicht erreichbarer Charakterliste erscheint ein Hinweis.
+
+### Korrektur 1.4.1
+Die Kanalsuche prüft alle Logdateien, auch bei großen Archiven. Aktive Logs werden alle zwei Sekunden gelesen; neu angelegte oder wieder aktive Dateien werden spätestens beim nächsten Verzeichnisscan nach 30 Sekunden aufgenommen. Die Dateisuche begrenzt nicht mehr vor dem Charakter-/Kanalabgleich auf alphabetisch erste Dateien.
