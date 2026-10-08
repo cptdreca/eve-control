@@ -1,13 +1,13 @@
 {
   "name": "eve-control-desktop",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "EVE-Control Desktop für Windows",
   "private": true,
   "author": "cptdreca",
   "main": "main.cjs",
   "scripts": {
     "start": "electron .",
-    "test": "node --test navigation.test.cjs intel.test.cjs",
+    "test": "node --test navigation.test.cjs intel.test.cjs intel-location.test.cjs",
     "dist": "electron-builder --win nsis --x64 --publish never"
   },
   "devDependencies": {
@@ -34,7 +34,8 @@
       "intel.css",
       "intel-renderer.js",
       "system-catalog.json",
-      "ship-names.json"
+      "ship-names.json",
+      "intel-location.cjs"
     ],
     "win": {
       "target": "nsis",
