@@ -1,13 +1,13 @@
 {
   "name": "eve-control-desktop",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "EVE-Control Desktop für Windows",
   "private": true,
   "author": "cptdreca",
   "main": "main.cjs",
   "scripts": {
     "start": "electron .",
-    "test": "node --test navigation.test.cjs intel.test.cjs intel-location.test.cjs intel-discovery.test.cjs",
+    "test": "node --test navigation.test.cjs intel.test.cjs intel-location.test.cjs intel-discovery.test.cjs intel-distance.test.cjs",
     "dist": "electron-builder --win nsis --x64 --publish never"
   },
   "devDependencies": {
@@ -38,7 +38,8 @@
       "intel-location.cjs",
       "dashboard-preload.cjs",
       "dashboard-bridge.cjs",
-      "intel-discovery.cjs"
+      "intel-discovery.cjs",
+      "intel-distance.cjs"
     ],
     "win": {
       "target": "nsis",
