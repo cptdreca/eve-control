@@ -1,13 +1,13 @@
 {
   "name": "eve-control-desktop",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "EVE-Control Desktop für Windows",
   "private": true,
   "author": "cptdreca",
   "main": "main.cjs",
   "scripts": {
     "start": "electron .",
-    "test": "node --test navigation.test.cjs",
+    "test": "node --test navigation.test.cjs intel.test.cjs",
     "dist": "electron-builder --win nsis --x64 --publish never"
   },
   "devDependencies": {
@@ -18,9 +18,29 @@
     "appId": "de.eve-control.desktop",
     "productName": "EVE-Control",
     "artifactName": "EVE-Control-Setup-${version}-${arch}.${ext}",
-    "directories": { "output": "dist" },
-    "files": ["main.cjs", "navigation.cjs", "offline.html", "icon.png"],
-    "win": { "target": "nsis", "icon": "icon.png", "signExecutable": false },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "navigation.cjs",
+      "offline.html",
+      "icon.png",
+      "intel-core.cjs",
+      "intel-service.cjs",
+      "intel-window.cjs",
+      "intel-preload.cjs",
+      "intel.html",
+      "intel.css",
+      "intel-renderer.js",
+      "system-catalog.json",
+      "ship-names.json"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.png",
+      "signExecutable": false
+    },
     "nsis": {
       "oneClick": false,
       "perMachine": false,

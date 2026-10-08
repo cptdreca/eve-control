@@ -1,0 +1,2 @@
+const {contextBridge,ipcRenderer}=require('electron');
+contextBridge.exposeInMainWorld('intel',{state:()=>ipcRenderer.invoke('intel:state'),folder:()=>ipcRenderer.invoke('intel:folder'),save:input=>ipcRenderer.invoke('intel:save',input),start:()=>ipcRenderer.invoke('intel:start'),stop:()=>ipcRenderer.invoke('intel:stop'),killboard:id=>ipcRenderer.invoke('intel:killboard',id),test:()=>ipcRenderer.invoke('intel:test'),onState:callback=>{ipcRenderer.on('intel:state',(_event,state)=>callback(state));}});
