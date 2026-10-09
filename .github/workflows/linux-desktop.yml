@@ -1,0 +1,58 @@
+name: Linux desktop packages
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['desktop/**', '.github/workflows/linux-desktop.yml']
+permissions:
+  contents: read
+concurrency:
+  group: linux-desktop-release
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: desktop/package-lock.json
+      - run: npm ci
+        working-directory: desktop
+      - run: npm test
+        working-directory: desktop
+      - run: npm run dist:linux
+        working-directory: desktop
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Verify packages and add to desktop release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          version=$(node -p "require('./desktop/package.json').version")
+          tag="desktop-v$version"
+          appimage="EVE-Control-$version-linux-x64.AppImage"
+          deb="EVE-Control-$version-linux-x64.deb"
+          for file in "$appimage" "$deb"; do
+            test -f "desktop/dist/$file"
+            test "$(stat -c %s "desktop/dist/$file")" -gt 1000000
+          done
+          (cd desktop/dist && sha256sum "$appimage" "$deb" > SHA256SUMS-linux.txt)
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            gh release create "$tag" --target "$GITHUB_SHA" --title "EVE-Control Desktop $version" --notes "Desktop-Pakete für EVE-Control. Internet erforderlich. Installation und Plattformhinweise: desktop/README.md im Repository."
+          fi
+          assets=$(gh release view "$tag" --json assets --jq '.assets[].name')
+          for file in "$appimage" "$deb" SHA256SUMS-linux.txt; do
+            if printf '%s\n' "$assets" | grep -Fxq "$file"; then
+              echo "$file already published; keeping existing asset"
+            else
+              gh release upload "$tag" "desktop/dist/$file"
+            fi
+          done

@@ -1,4 +1,4 @@
-# EVE-Control für Windows
+# EVE-Control für Windows und Linux
 
 Die Windows-App öffnet die bestehende EVE-Control-Onlineanwendung in einem eigenen Fenster. Internet wird benötigt. Website-Updates werden beim erneuten Laden sichtbar. Updates der Desktop-Hülle werden über neue Installer bereitgestellt.
 
@@ -62,3 +62,28 @@ Die Kanalsuche prüft alle Logdateien, auch bei großen Archiven. Aktive Logs we
 Im Dropdown „Alarm bei Entfernung“ sind 0 (gleiches System) bis 20 Sternentorsprünge wählbar, einschließlich der gewählten Grenze. Standard bleibt 5. Zum Ändern Alarm stoppen und anschließend speichern/starten. DOTLANs öffentliche Fastest-Route-Seite liefert die Systemfolge; deren Übergänge ergeben die Entfernung. Nur Start-/Zielsystemnamen werden an DOTLAN übermittelt. Keine Chattexte oder Piloten-IDs. Routen werden 10 Minuten gespeichert; maximal eine neue Anfrage pro Sekunde. Bei Fehlern gibt es einen sichtbaren Hinweis und eine Minute Pause für DOTLAN-Abfragen. Unbekannte Entfernungen lösen keinen Alarm aus. Es gibt keinen stillen ESI-Ersatz. Private Jumpbridges und Wurmlöcher sind nicht enthalten. Eigener Standort und Pilotenauflösung bleiben bei ESI.
 Ab 1.5.1 öffnet der Link zKillboard-Profil öffnen bei jedem aufgelösten Piloten dessen Profil im Standardbrowser. Ohne bestätigte Charakter-ID wird kein Profil-Link geraten.
 Ab 1.5.2 werden durch mindestens zwei Leerzeichen getrennte Pilotennamen neben einem vollständigen Systemfeld erkannt, auch mehrere Piloten ohne Schiff und Systeme am Ende mit Sternmarkierung. Freitext ohne erkennbare Feldgrenzen wird weiterhin nicht auf Verdacht in Namenskombinationen zerlegt.
+
+## Linux (x64)
+
+Der Linux-Workflow ergänzt den Desktop-Release um `EVE-Control-…-linux-x64.AppImage`, `EVE-Control-…-linux-x64.deb` und `SHA256SUMS-linux.txt`. Die Windows-Dateien bleiben erhalten.
+
+**AppImage:** Datei aus Releases herunterladen, ausführbar machen und starten:
+
+```bash
+chmod +x EVE-Control-1.5.2-linux-x64.AppImage
+./EVE-Control-1.5.2-linux-x64.AppImage
+```
+
+Falls FUSE fehlt, kann das AppImage mit `--appimage-extract-and-run` gestartet werden. Die Chromium-Sandbox bleibt aktiviert. Nicht als root starten und nicht mit `--no-sandbox` umgehen.
+
+**Debian/Ubuntu:** Im Download-Ordner installieren:
+
+```bash
+sudo apt install ./EVE-Control-1.5.2-linux-x64.deb
+```
+
+Danach EVE-Control über das Anwendungsmenü öffnen. Internet und eine grafische Desktop-Sitzung werden benötigt. ARM ist derzeit nicht enthalten. Der automatische Paketbau prüft die vorhandenen Funktionstests; ein praktischer Test auf deiner Linux-Distribution steht noch aus.
+
+**Intel unter Wine/Proton:** Über „Chatlog-Ordner wählen“ den tatsächlichen `EVE/logs/Chatlogs`-Ordner innerhalb des verwendeten Wine-/Proton-Präfixes auswählen. Je nach Installation liegt er beispielsweise unter `drive_c/users/<Benutzer>/Documents/EVE/logs/Chatlogs`. Individuelle Steam-/Lutris-Präfixe werden nicht automatisch gesucht. EVE muss Chatlogs speichern. Desktop-Benachrichtigungen hängen von der Linux-Desktopumgebung ab.
+
+Für lokale Linux-Builds: `npm ci`, `npm test`, `npm run dist:linux`. Ausgabe unter `desktop/dist/`.
