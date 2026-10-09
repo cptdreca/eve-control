@@ -3,3 +3,4 @@
 select{font:inherit;background:#0e252e;color:#e0f2f4;max-width:100%;padding:11px;border:1px solid #45606a;border-radius:8px}#discovery-choice{margin:16px 0}#discovery-status,#location-error{color:#ffd69a}input[type=checkbox]{width:auto}
 
 #channel-menu{border:1px solid #45606a;border-radius:8px;padding:12px}#channel-menu summary{cursor:pointer;color:#68dceb}.channel-option{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;padding:10px 0}.channel-option small{grid-column:2;overflow-wrap:anywhere;color:#a8c1c8}#detected-logs{max-height:300px;overflow:auto}
+.killboard-link{display:inline-block;color:#68dceb;margin:8px 14px 8px 0;text-decoration:underline}.killboard-link:focus-visible{outline:2px solid #68dceb;outline-offset:3px}
