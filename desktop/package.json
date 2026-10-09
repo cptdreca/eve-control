@@ -65,7 +65,8 @@
       "category": "Game",
       "icon": "icon.png",
       "maintainer": "cptdreca",
-      "artifactName": "EVE-Control-${version}-linux-${arch}.${ext}"
+      "artifactName": "EVE-Control-${version}-linux-x64.${ext}"
     }
-  }
+  },
+  "homepage": "https://app.eve-control.de"
 }
