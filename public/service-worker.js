@@ -1,6 +1,6 @@
-const CACHE_NAME = 'eve-character-control-v18';
+const CACHE_NAME = 'eve-character-control-v19';
 const OFFLINE_URL = '/';
-const CORE = ['/manifest.json', '/icons/app-icon-192.png', '/icons/app-icon-512.png'];
+const CORE = ['/manifest.json', '/icons/cockpit-192.png', '/icons/cockpit-512.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE)));
