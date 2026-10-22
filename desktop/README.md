@@ -87,3 +87,7 @@ Danach EVE-Control über das Anwendungsmenü öffnen. Internet und eine grafisch
 **Intel unter Wine/Proton:** Über „Chatlog-Ordner wählen“ den tatsächlichen `EVE/logs/Chatlogs`-Ordner innerhalb des verwendeten Wine-/Proton-Präfixes auswählen. Je nach Installation liegt er beispielsweise unter `drive_c/users/<Benutzer>/Documents/EVE/logs/Chatlogs`. Individuelle Steam-/Lutris-Präfixe werden nicht automatisch gesucht. EVE muss Chatlogs speichern. Desktop-Benachrichtigungen hängen von der Linux-Desktopumgebung ab.
 
 Für lokale Linux-Builds: `npm ci`, `npm test`, `npm run dist:linux`. Ausgabe unter `desktop/dist/`.
+
+### Update-Benachrichtigungen ab 1.6.0
+
+Die laufende Desktop-App prüft 15 Sekunden nach dem Start und danach alle sechs Stunden die öffentlichen GitHub-Releases. Pro neuer stabiler Windows-Version erscheint einmal eine Windows-Benachrichtigung; ein Klick öffnet die Download-Seite. Keine automatische Installation. Menü EVE-Control → Nach Updates suchen erlaubt eine manuelle Prüfung mit Ergebnisanzeige. Ohne laufende App erfolgen keine Abfragen oder Benachrichtigungen. Windows-Benachrichtigungseinstellungen und Fokusmodus können die Anzeige verhindern. Es werden keine EVE-Daten übertragen; nur eine öffentliche Release-Abfrage. Die zuletzt gemeldete Version liegt lokal in update-notifications.json.
