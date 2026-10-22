@@ -1,0 +1,2 @@
+import {MarketCheck} from '../TradingMarket';
+export default function MarketPage(){return <main className="app-shell"><header className="app-header"><div><p className="eyebrow">EVE CONTROL · MARKTTERMINAL</p><h1>JITA <span>MARKTCHECK</span></h1><p className="command-subtitle">Mehrere Items auf einmal prüfen und Preise vergleichen.</p></div><a className="install-app" href="/">Zum Dashboard</a></header><MarketCheck/></main>}

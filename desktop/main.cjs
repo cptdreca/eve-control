@@ -1,7 +1,7 @@
 const {app,BrowserWindow,Menu,shell,session,ipcMain}=require('electron');
 const path=require('node:path');
 const {HOME,internal,external}=require('./navigation.cjs');
-let window;
+let window,marketWindow;
 app.enableSandbox();
 if(!app.requestSingleInstanceLock()){app.quit();}else{
  app.on('second-instance',()=>{if(window){if(window.isMinimized())window.restore();window.focus();}});
@@ -21,7 +21,15 @@ if(!app.requestSingleInstanceLock()){app.quit();}else{
   window.webContents.on('will-attach-webview',event=>event.preventDefault());
   window.webContents.on('will-navigate',(event,url)=>{if(!internal(url)){event.preventDefault();if(external(url))void shell.openExternal(url);}});
   window.webContents.on('will-redirect',(event,url)=>{if(!internal(url))event.preventDefault();});
-  window.webContents.setWindowOpenHandler(({url})=>{if(internal(url))void window.loadURL(url);else if(external(url))void shell.openExternal(url);return {action:'deny'};});
+  window.webContents.setWindowOpenHandler(({url})=>{if(internal(url)&&new URL(url).origin!== 'https://login.eveonline.com'&&new URL(url).pathname==='/marktcheck'){
+   if(marketWindow&&!marketWindow.isDestroyed()){marketWindow.show();marketWindow.focus();return {action:'deny'};}
+   marketWindow=new BrowserWindow({width:1100,height:850,minWidth:390,minHeight:600,title:'EVE-Control · Marktcheck',icon:path.join(__dirname,'icon.png'),backgroundColor:'#080c12',webPreferences:{partition:'persist:eve-control',nodeIntegration:false,contextIsolation:true,sandbox:true,webSecurity:true,webviewTag:false}});
+   const marketOrigin=new URL(url).origin;
+   marketWindow.webContents.on('will-navigate',(event,target)=>{if(new URL(target).origin!==marketOrigin){event.preventDefault();if(external(target))void shell.openExternal(target);}});
+   marketWindow.webContents.on('will-redirect',(event,target)=>{if(new URL(target).origin!==marketOrigin)event.preventDefault();});
+   marketWindow.webContents.setWindowOpenHandler(({url:target})=>{if(external(target))void shell.openExternal(target);return {action:'deny'};});
+   marketWindow.on('closed',()=>{marketWindow=null;});void marketWindow.loadURL(url);
+  }else if(internal(url))void window.loadURL(url);else if(external(url))void shell.openExternal(url);return {action:'deny'};});
   window.webContents.on('did-fail-load',(_event,code,_description,_url,isMainFrame)=>{if(isMainFrame&&code!==-3)void window.loadFile(path.join(__dirname,'offline.html'));});
   window.once('ready-to-show',()=>window.show());
   window.on('closed',()=>{window=null;});
