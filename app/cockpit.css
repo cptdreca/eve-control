@@ -1,0 +1,54 @@
+/* Cradle of War-inspired capsuleer cockpit. */
+:root{--bg:#080c12;--line:rgba(131,174,192,.22);--cyan:#79e7f2;--text:#ecf2f5;--muted:#a1b1bd;--orange:#ffb265}
+body{background:radial-gradient(ellipse at 90% 0,rgba(196,98,37,.12),transparent 44%),radial-gradient(ellipse at 0 30%,rgba(31,127,151,.12),transparent 50%),#080c12}
+body:before{opacity:.3;background-size:72px 72px;background-image:linear-gradient(rgba(147,180,197,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(147,180,197,.045) 1px,transparent 1px)}
+.app-shell{width:min(100% - 48px,1120px);padding:28px 0 86px}
+.beta-ribbon{border:0;border-bottom:1px solid var(--line);border-radius:0;padding:0 0 12px;background:transparent;color:var(--muted);font-size:.7rem}
+.beta-ribbon a{color:var(--muted)}
+.app-header{position:relative;align-items:flex-start;flex-direction:column;gap:22px;padding:24px 28px;margin-bottom:18px;border:1px solid var(--line);border-top:2px solid var(--orange);border-radius:3px;background:linear-gradient(115deg,#15212c 0%,#0c141e 70%);overflow:hidden}
+.app-header:after{content:'';position:absolute;right:-80px;top:-120px;width:330px;height:330px;border:1px solid rgba(121,231,242,.12);border-radius:50%;box-shadow:0 0 0 28px rgba(121,231,242,.025),0 0 0 65px rgba(121,231,242,.025);pointer-events:none}
+.app-header>div{position:relative;z-index:1}
+.eyebrow{color:var(--orange);font-size:.65rem;letter-spacing:.2em}
+h1{font-size:clamp(1.6rem,4vw,2.55rem);font-weight:600;letter-spacing:.035em;line-height:1.18}h1 span{color:var(--cyan);font-weight:700}
+.command-subtitle{color:#acbdc9;font-size:.82rem;line-height:1.6;margin:12px 0 0;max-width:48rem}
+.header-actions{width:100%;gap:10px;flex-wrap:wrap}
+.install-app{min-height:44px;padding:11px 16px;border-radius:3px;border-color:#3b5869;background:#132530;font-size:.7rem;font-weight:600;letter-spacing:.08em}
+.header-actions>.install-app:first-child{background:#ffb265;border-color:#ffb265;color:#18110b}
+.connection-status{margin-left:auto;font-size:.65rem;letter-spacing:.08em;color:#b5c5ce;padding:10px 0}
+.character-card,.login-panel,.isk-goals{border-radius:4px;background:linear-gradient(120deg,#121d28,#0d151f);border-color:var(--line);box-shadow:0 12px 30px #0003}
+.character-profile{background:linear-gradient(110deg,rgba(121,231,242,.055),transparent);padding:26px}
+.portrait-placeholder{border-radius:4px;border-color:#50717e}
+.section-label,.metric-heading{color:#a8becb}
+.metric-card{background:#0d1721;min-width:0;transition:background .15s ease}
+.metric-card:hover{background:#142330}.metric-icon{border-radius:3px;background:#162d38;color:var(--cyan)}
+.metric-card strong{color:#edf7fb;font-variant-numeric:tabular-nums}.metric-card p{color:#a1b1bd}
+.login-panel{position:relative;align-items:flex-start;text-align:left;padding:36px;border-left:3px solid var(--cyan)}
+.login-panel img{width:64px;height:64px;border-radius:4px;margin-bottom:20px}
+.login-panel>p:not(.section-label){max-width:680px;color:#adbec9}.login-panel h2{font-weight:600}
+.login-panel .login-consent{margin:18px 0 0!important;color:#a1b1bd!important}
+.primary-login{border-radius:3px;border-color:var(--orange);background:var(--orange);color:#1b140c;font-weight:650;min-height:44px}
+.add-character,.logout,.character-switcher button,.character-switcher>a{border-radius:3px}
+.isk-goals{position:relative;padding:26px;border-top:2px solid #365565}
+.isk-goals h2{font-size:1.35rem;font-weight:600;letter-spacing:.015em}
+.isk-goals>header{padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.isk-goals input,.isk-goals select{background:#080f17;border-color:#405563;border-radius:3px;color:#ecf2f5}
+.isk-goals input::placeholder{color:#8b9da9}
+.isk-goals button{background:#18303c;border-color:#436473;border-radius:3px}
+.isk-goals .isk-actions button{background:var(--orange);color:#20150b;border-color:var(--orange);font-weight:600}
+.isk-stats>div{border-radius:3px;background:#0b141d;border-color:#293e4b}
+.isk-stats strong{color:var(--cyan)}
+.isk-help{color:#afbfcb}.isk-goal{border-color:#334855}
+#marktcheck{border-top-color:var(--orange)}
+#marktcheck>header h2{color:var(--text)}
+#marktcheck form{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap}
+#marktcheck form>label{flex:1;min-width:min(100%,260px)}
+#marktcheck .isk-actions{margin:0}
+#marktcheck .isk-goal{padding:20px;background:#0b141d;border:1px solid #334855;border-left:2px solid var(--cyan);border-radius:3px}
+#marktcheck .isk-goal h3{color:var(--cyan)}
+.feedback-fab,.feedback-dialog,.intel-info{border-radius:4px;background:#11212d}
+.site-footer{padding:20px 0;border-top:1px solid var(--line);color:var(--muted)}
+:where(button,a,input,select,textarea,summary):focus-visible{outline:2px solid var(--orange);outline-offset:4px}
+@media(hover:hover){.install-app:hover,.isk-goals button:hover:not(:disabled){filter:brightness(1.15)}.primary-login:hover{background:#ffc48a}}
+@media(min-width:900px){.metric-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:620px){.app-shell{width:calc(100% - 24px);padding:16px 0 calc(90px + env(safe-area-inset-bottom))}.app-header{padding:22px 16px;gap:18px}.header-actions{justify-content:flex-start;gap:8px}.install-app{padding:10px 12px;font-size:.65rem}.connection-status{width:100%;margin:0;padding:4px 0}.command-subtitle{font-size:.78rem}.login-panel{padding:24px 18px}.isk-goals{padding:20px 16px}.character-profile{padding:20px 16px}.beta-ribbon{gap:6px}.isk-goals h2{font-size:1.18rem}#marktcheck form{align-items:stretch;flex-direction:column}#marktcheck .isk-actions button{width:100%}#marktcheck .isk-goal{padding:16px}.isk-stats strong{overflow-wrap:anywhere}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
