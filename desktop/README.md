@@ -91,3 +91,7 @@ Für lokale Linux-Builds: `npm ci`, `npm test`, `npm run dist:linux`. Ausgabe un
 ### Update-Benachrichtigungen ab 1.6.0
 
 Die laufende Desktop-App prüft 15 Sekunden nach dem Start und danach alle sechs Stunden die öffentlichen GitHub-Releases. Pro neuer stabiler Windows-Version erscheint einmal eine Windows-Benachrichtigung; ein Klick öffnet die Download-Seite. Keine automatische Installation. Menü EVE-Control → Nach Updates suchen erlaubt eine manuelle Prüfung mit Ergebnisanzeige. Ohne laufende App erfolgen keine Abfragen oder Benachrichtigungen. Windows-Benachrichtigungseinstellungen und Fokusmodus können die Anzeige verhindern. Es werden keine EVE-Daten übertragen; nur eine öffentliche Release-Abfrage. Die zuletzt gemeldete Version liegt lokal in update-notifications.json.
+
+### Intel-Minimap (1.7.0)
+Die schematische Karte zeigt den aktuellen Standort und die von DOTLAN bestätigten Sternentorwege zu Intel-Meldungen innerhalb des Alarmradius. Sie enthält ausschließlich geprüfte Routen, keine vollständige Umgebungskarte. Meldungen sind höchstens fünf Minuten sichtbar und müssen vom aktuellen Standort aus geprüft worden sein. Systeme anklicken (oder mit Tab/Enter auswählen), um Pilotennamen und gemeldete Schiffe zu sehen. Die Ansicht nutzt vorhandene Routenabfragen; keine zusätzlichen Chatdaten werden versendet. Große Karten sind scrollbar. Ohne gültigen Standort wird keine Karte angezeigt.
+

@@ -4,3 +4,5 @@ select{font:inherit;background:#0e252e;color:#e0f2f4;max-width:100%;padding:11px
 
 #channel-menu{border:1px solid #45606a;border-radius:8px;padding:12px}#channel-menu summary{cursor:pointer;color:#68dceb}.channel-option{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;padding:10px 0}.channel-option small{grid-column:2;overflow-wrap:anywhere;color:#a8c1c8}#detected-logs{max-height:300px;overflow:auto}
 .killboard-link{display:inline-block;color:#68dceb;margin:8px 14px 8px 0;text-decoration:underline}.killboard-link:focus-visible{outline:2px solid #68dceb;outline-offset:3px}
+
+#minimap{overflow:auto;max-height:460px;background:#071019;border:1px solid #29434c;border-radius:6px}#minimap svg{display:block;min-width:100%}.map-edge{stroke:#466577;stroke-width:2}.map-own{fill:#68dceb;stroke:#ceffff;stroke-width:2}.map-report{fill:#ffb867;stroke:#ffe1b8;stroke-width:2}.map-transit{fill:#233d4c;stroke:#8aa4b3;stroke-width:2}.map-node{cursor:pointer}.map-node text{fill:#deedf0;font:13px system-ui}.map-node:focus{outline:none}.map-node:focus circle{stroke:white;stroke-width:4}#minimap-detail{overflow-wrap:anywhere}
