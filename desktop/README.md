@@ -95,3 +95,7 @@ Die laufende Desktop-App prüft 15 Sekunden nach dem Start und danach alle sechs
 ### Intel-Minimap (1.7.0)
 Die schematische Karte zeigt den aktuellen Standort und die von DOTLAN bestätigten Sternentorwege zu Intel-Meldungen innerhalb des Alarmradius. Sie enthält ausschließlich geprüfte Routen, keine vollständige Umgebungskarte. Meldungen sind höchstens fünf Minuten sichtbar und müssen vom aktuellen Standort aus geprüft worden sein. Systeme anklicken (oder mit Tab/Enter auswählen), um Pilotennamen und gemeldete Schiffe zu sehen. Die Ansicht nutzt vorhandene Routenabfragen; keine zusätzlichen Chatdaten werden versendet. Große Karten sind scrollbar. Ohne gültigen Standort wird keine Karte angezeigt.
 
+
+### Wählbare Warntöne (1.8.0)
+Im Intel-Tool stehen Sonar, Doppel-Piep, Alarmimpuls, tiefer Warnton und Stumm zur Auswahl. Der Lautstärkeregler wirkt auf die erzeugten Warntöne. Mit dem Testknopf lässt sich die aktuelle Auswahl vor dem Speichern anhören. Speichern über Speichern & Alarm starten; zum Ändern einen laufenden Alarm zuerst stoppen. Die Töne werden lokal erzeugt und funktionieren auch bei geschlossenem Intel-Fenster, solange die Desktop-App läuft. Windows-Hinweise bleiben stumm, um doppelte Töne zu vermeiden. Maximal ein Warnton alle fünf Sekunden; Systemlautstärke und Audioausgabe gelten weiterhin.
+

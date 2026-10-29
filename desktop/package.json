@@ -1,13 +1,13 @@
 {
   "name": "eve-control-desktop",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "EVE-Control Desktop für Windows und Linux",
   "private": true,
   "author": "cptdreca",
   "main": "main.cjs",
   "scripts": {
     "start": "electron .",
-    "test": "node --test navigation.test.cjs intel.test.cjs intel-location.test.cjs intel-discovery.test.cjs intel-distance.test.cjs update-checker.test.cjs intel-minimap.test.cjs",
+    "test": "node --test navigation.test.cjs intel.test.cjs intel-location.test.cjs intel-discovery.test.cjs intel-distance.test.cjs update-checker.test.cjs intel-minimap.test.cjs intel-sounds.test.cjs",
     "dist": "electron-builder --win nsis --x64 --publish never",
     "dist:linux": "electron-builder --linux AppImage deb --x64 --publish never"
   },
@@ -43,7 +43,12 @@
       "intel-distance.cjs",
       "update-checker.cjs",
       "update-notifications.cjs",
-      "intel-minimap.js"
+      "intel-minimap.js",
+      "intel-audio.cjs",
+      "intel-sounds.cjs",
+      "sound-preload.cjs",
+      "sound-player.html",
+      "sound-player.js"
     ],
     "win": {
       "target": "nsis",
